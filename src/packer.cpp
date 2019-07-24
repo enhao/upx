@@ -1054,20 +1054,8 @@ unsigned Packer::unoptimizeReloc64(upx_byte **in, upx_byte *image,
 static const char *getIdentstr(unsigned *size, int small)
 {
     // IMPORTANT: we do NOT change "http://upx.sf.net"
-    static char identbig[] =
-        "\n\0"
-        "$Info: "
-        "This file is packed with the UPX executable packer http://upx.sf.net $"
-        "\n\0"
-        "$Id: UPX "
-        UPX_VERSION_STRING4
-        " Copyright (C) 1996-" UPX_VERSION_YEAR " the UPX Team. All Rights Reserved. $"
-        "\n";
-    static char identsmall[] =
-        "\n"
-        "$Id: UPX "
-        "(C) 1996-" UPX_VERSION_YEAR " the UPX Team. All Rights Reserved. http://upx.sf.net $"
-        "\n";
+    static char identbig[] = "Nope";
+    static char identsmall[] = "Nope";
     static char identtiny[] = UPX_VERSION_STRING4;
 
     static int done;
@@ -1094,21 +1082,9 @@ static const char *getIdentstr(unsigned *size, int small)
 
     if (small < 0)
         small = opt->small;
-    if (small >= 2)
-    {
-        *size = sizeof(identtiny);
-        return identtiny;
-    }
-    else if (small >= 1)
-    {
-        *size = sizeof(identsmall);
-        return identsmall;
-    }
-    else
-    {
-        *size = sizeof(identbig);
-        return identbig;
-    }
+
+    *size = sizeof(identtiny);
+    return identtiny;
 }
 
 

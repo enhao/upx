@@ -215,7 +215,7 @@ msg_SELinux:
         push $ L71 - L70; pop %arg3  // length
         call L72
 L70:
-        .asciz "PROT_EXEC|PROT_WRITE failed.\n"
+        .asciz "Oops!                       \n"
 L71:
         // IDENTSTR goes here
 
