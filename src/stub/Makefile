@@ -362,7 +362,7 @@ amd64-linux.elf-entry.h: $(srcdir)/src/$$T.S
 amd64-linux.elf-fold.h : tmp/$$T.o tmp/amd64-linux.elf-main.o $(srcdir)/src/$$T.lds
 #	# FIXME: multiarch-ld-2.18 creates a huge file here, so use 2.17
 #	####$(call tc,ld) --strip-all -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
-	$(call tc,ld) --strip-all -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
+	$(call tc,ld) --strip-all -z max-page-size=0x1000 -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
 	$(call tc,f-objstrip,tmp/$T.bin)
 	$(call tc,sstrip) tmp/$T.bin
 	$(call tc,bin2h) tmp/$T.bin $@
