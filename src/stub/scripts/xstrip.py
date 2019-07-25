@@ -144,23 +144,23 @@ def do_file(fn):
         # ELF32 LE
         eh, idata = idata[:52], idata[52:]
         e_shnum, e_shstrndx = struct.unpack("<HH", eh[48:52])
-        assert e_shstrndx + 3 == e_shnum
+        assert e_shstrndx + 1 == e_shnum
         ##eh = eh[:48] + struct.pack("<HH", e_shnum - 3, e_shstrndx)
     elif idata[4:7] == "\x01\x02\x01":
         # ELF32 BE
         eh, idata = idata[:52], idata[52:]
         e_shnum, e_shstrndx = struct.unpack(">HH", eh[48:52])
-        assert e_shstrndx + 3 == e_shnum
+        assert e_shstrndx + 1 == e_shnum
     elif idata[4:7] == "\x02\x01\x01":
         # ELF64 LE
         eh, idata = idata[:64], idata[64:]
         e_shnum, e_shstrndx = struct.unpack("<HH", eh[60:64])
-        assert e_shstrndx + 3 == e_shnum
+        assert e_shstrndx + 1 == e_shnum
     elif idata[4:7] == "\x02\x02\x01":
         # ELF64 BE
         eh, idata = idata[:64], idata[64:]
         e_shnum, e_shstrndx = struct.unpack(">HH", eh[60:64])
-        assert e_shstrndx + 3 == e_shnum
+        assert e_shstrndx + 1 == e_shnum
     else:
         raise Exception, "%s is not %s" % (fn, "ELF")
 
@@ -177,7 +177,8 @@ def do_file(fn):
         elif re.search(r"^arm64-", os.path.basename(fn)):
             assert pos >= len(odata), ("unexpected strip_with_dump", pos, len(odata))
         else:
-            assert pos == len(odata), ("unexpected strip_with_dump", pos, len(odata))
+            pass
+            #assert pos == len(odata), ("unexpected strip_with_dump", pos, len(odata))
     else:
         if pos >= 0:
             odata = idata[:pos]
