@@ -32,13 +32,13 @@
 
 
 #define STUB_AMD64_LINUX_KERNEL_VMLINUX_SIZE    25838
-#define STUB_AMD64_LINUX_KERNEL_VMLINUX_ADLER32 0xf24f9703
-#define STUB_AMD64_LINUX_KERNEL_VMLINUX_CRC32   0x459edbda
+#define STUB_AMD64_LINUX_KERNEL_VMLINUX_ADLER32 0xb2b7974c
+#define STUB_AMD64_LINUX_KERNEL_VMLINUX_CRC32   0x750ecc4e
 
 unsigned char stub_amd64_linux_kernel_vmlinux[25838] = {
 /* 0x0000 */ 127, 69, 76, 70,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 /* 0x0010 */   1,  0,  3,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-/* 0x0020 */  52, 30,  0,  0,  0,  0,  0,  0, 52,  0,  0,  0,  0,  0, 40,  0,
+/* 0x0020 */ 116, 39,  0,  0,  0,  0,  0,  0, 52,  0,  0,  0,  0,  0, 40,  0,
 /* 0x0030 */   0,  0,  0,  0, 90, 14,104,  0,  0,  0,  0,184,  0,  0,  0,  0,
 /* 0x0040 */  87, 86, 80, 80,106,  0,104,  0,  0,  0,  0,232,  1,  0,  0,  0,
 /* 0x0050 */ 235,  3,164,235,  3,138,  6, 70,136,  7, 71,  1,219,117,  7,139,
