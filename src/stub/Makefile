@@ -344,9 +344,15 @@ tmp/amd64-darwin.macho-main.o : $(srcdir)/src/$$T.c
 amd64-linux.elf%.h : tc_list = amd64-linux.elf default
 amd64-linux.elf%.h : tc_bfdname = elf64-x86-64
 
-tc.amd64-linux.elf.gcc  = amd64-linux-gcc-3.4.4 -fPIC -m64 -nostdinc -MMD -MT $@
+tc.amd64-linux.elf.gcc  = x86_64-linux-gnu-gcc -fPIC -m64 -nostdinc -MMD -MT $@
+tc.amd64-linux.elf.gcc += -fno-stack-protector
 tc.amd64-linux.elf.gcc += -fno-exceptions -fno-asynchronous-unwind-tables
 tc.amd64-linux.elf.gcc += -Wall -W -Wcast-align -Wcast-qual -Wstrict-prototypes -Wwrite-strings -Werror
+
+tc.amd64-linux.elf.sstrip    = sstrip
+tc.amd64-linux.elf.m-ld      = x86_64-linux-gnu-ld $(if $(tc_bfdname),-b $(tc_bfdname))
+tc.amd64-linux.elf.m-objcopy = x86_64-linux-gnu-objcopy $(if $(tc_bfdname),-F $(tc_bfdname))
+tc.amd64-linux.elf.m-objdump = x86_64-linux-gnu-objdump $(if $(tc_bfdname),-b $(tc_bfdname)) $(if $(tc_bfdarch),-m $(tc_bfdarch))
 
 amd64-linux.elf-entry.h: $(srcdir)/src/$$T.S
 	$(call tc,gcc) -c -x assembler-with-cpp $< -o tmp/$T.bin
@@ -356,7 +362,7 @@ amd64-linux.elf-entry.h: $(srcdir)/src/$$T.S
 amd64-linux.elf-fold.h : tmp/$$T.o tmp/amd64-linux.elf-main.o $(srcdir)/src/$$T.lds
 #	# FIXME: multiarch-ld-2.18 creates a huge file here, so use 2.17
 #	####$(call tc,ld) --strip-all -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
-	multiarch-ld-2.17 --strip-all -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
+	$(call tc,ld) --strip-all -T $(srcdir)/src/$T.lds -Map tmp/$T.map $(filter %.o,$^) -o tmp/$T.bin
 	$(call tc,f-objstrip,tmp/$T.bin)
 	$(call tc,sstrip) tmp/$T.bin
 	$(call tc,bin2h) tmp/$T.bin $@
@@ -378,6 +384,10 @@ tmp/amd64-linux.elf-main.o : $(srcdir)/src/$$T.c
 # info: we use the tc settings from arch-i386 !!
 amd64-linux.kernel.vmlinu%.h : tc_list = arch-i386 default
 amd64-linux.kernel.vmlinu%.h : tc_bfdname = elf32-i386
+
+tc.arch-i386.gcc       = x86_64-linux-gnu-gcc -m32 -march=i386 -nostdinc -MMD -MT $@
+tc.arch-i386.m-objcopy = x86_64-linux-gnu-objcopy $(if $(tc_bfdname),-F $(tc_bfdname))
+tc.arch-i386.m-objdump = x86_64-linux-gnu-objdump $(if $(tc_bfdname),-b $(tc_bfdname)) $(if $(tc_bfdarch),-m $(tc_bfdarch))
 
 amd64-linux.kernel.vmlinu%.h : $(srcdir)/src/$$T.S
 	$(call tc,gcc) -c -x assembler-with-cpp $< -o tmp/$T.bin
